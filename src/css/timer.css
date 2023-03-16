@@ -1,0 +1,28 @@
+.flatpickr-input{
+    font-size: 20px;
+}
+
+button{
+    font-size: 20px;
+}
+
+.timer{
+    display: flex;
+    margin-top: 20px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    align-items: center;
+}
+
+.field:last-child{
+    margin-right: 0;
+}
+
+.value {
+    font-size: 35px;
+    font-weight: 500;
+}
