@@ -2,6 +2,7 @@ import Notiflix from 'notiflix';
 
 const formEl = document.querySelector('.form');
 const delayEl = document.querySelector('[name=delay]');
+console.log(delayEl);
 const stepEl = document.querySelector('[name=step]');
 const amountEl = document.querySelector('[name=amount]');
 let timerId = null;
@@ -25,34 +26,39 @@ function submitedForm(e) {
   const {
     elements: { delay, step, amount },
   } = e.target;
+
   const delayValue = delay.value;
+  console.log(delay.value);
   const stepValue = step.value;
   const amaountValue = amount.value;
+  promiseCreator(delayValue, stepValue, amaountValue);
+}
+
+function promiseCreator(delayValue, stepValue, amaountValue) {
+  let alertStep = 1;
+  console.log(delayValue);
   setTimeout(() => {
     if (isActive) {
       return;
     }
     isActive = true;
-    promiseCreator(delayValue, stepValue, amaountValue);
-  }, delay);
-}
-
-function promiseCreator(delayValue, stepValue, amaountValue) {
-  let alertStep = 1;
-
-  timerId = setInterval(() => {
-    createPromise(alertStep, delayValue)
-      .then(({ position, delay }) => {
-        Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
-      })
-      .catch(({ position, delay }) => {
-        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
-      });
-    alertStep = alertStep + 1;
-    delayValue = Number(delayValue) + Number(stepValue);
-    if(alertStep === (Number(amaountValue) + 1)){
-      clearInterval(timerId);
-    }
-    
-  }, stepValue);
+    timerId = setInterval(() => {
+      createPromise(alertStep, delayValue)
+        .then(({ position, delay }) => {
+          Notiflix.Notify.success(
+            `✅ Fulfilled promise ${position} in ${delay}ms`
+          );
+        })
+        .catch(({ position, delay }) => {
+          Notiflix.Notify.failure(
+            `❌ Rejected promise ${position} in ${delay}ms`
+          );
+        });
+      alertStep = alertStep + 1;
+      delayValue = Number(delayValue) + Number(stepValue);
+      if (alertStep === Number(amaountValue) + 1) {
+        clearInterval(timerId);
+      }
+    }, stepValue);
+  }, delayValue);
 }
